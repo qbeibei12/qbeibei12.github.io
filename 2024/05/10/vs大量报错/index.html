@@ -1,0 +1,166 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    
+    <title>vs大量报错 | Hexo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon/favicon.ico">
+    
+<link rel="stylesheet" href="/css/main.css">
+
+    
+<link rel="stylesheet" href="/css/tagplugins.css">
+
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+    
+
+
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml" />
+    
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+  <div class="blog-header">
+   <a id="menu-nav-icon"><img src="/image/menu.png"/></a>
+   <div class="nav-container">
+     <nav id="main-nav">
+       
+         <a class="main-nav-link" href="/">Home</a>
+       
+         <a class="main-nav-link" href="/archives">Archives</a>
+       
+     </nav>
+   </div>
+   <!--
+   <div id="search-form-wrap">
+     <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+   </div>
+ -->
+    <h1 class="blog-title">Hexo</h1>
+    <p class="lead blog-description"></p>
+</div>
+
+  <div id='main-part'>
+      <div class="main">
+<div class="blog-post">
+    <!-- Title -->
+    <h1 class="blog-post-title">
+        <a href="/2024/05/10/vs大量报错/">
+            Vs大量报错
+        </a>
+    </h1>
+    <!-- Date and Author -->
+    <p class="blog-post-meta">
+        2024-05-10
+        
+    </p>
+
+    
+
+    <!-- Content -->
+    <p>兄弟们，我简直无语了。最近一觉醒来，发现我的 visual stdio2022 出现大量报错，原本写好的程序全部报错，打不开各个头文件，这个 bug 简直要了我的老命。去网上搜了搜教程各种五花八门的操作都有，什么包含头文件之类的，教你用重定向设置版本的。我都试过了没用，不过到重定向设置版本再去运行的时候，有了一个报错，这是一个好消息，至少终于知道问题在哪里了，之后在我的一番折腾，把 vs 删了又卸载了 20 多次终于弄好了。<br>
+接下来我给大家说一下问题吧，问题出在你最近格式化磁盘，还有清理电脑垃圾的时候清理了依赖项包。突然报错的原因是因为系统本身的内置缓存区会使用你在没删除之前的配置，当年删除后，顶多运行几个程序就出现大量报错。而且你再无论怎么安装卸载都不管用，你登陆了 VS 账号，他会保存你所有设置，包括你删除修改的设置，即使你使用安装里面的修复也没用，当你安装了重定向的版本 sdk 再去属性里配置也没用，他还是会告诉你找不到。废话不多说，直接上解决办法。<br>
+解决 1：找到如下图片的位置，一般默认在你安装的公布各项插件的磁盘里，把配置改成我的这个配置</p>
+<p><img src="/photo/$%7Bfiilename%7D/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-05-10%20153315.png" alt="屏幕截图 2024-05-10 153315"></p>
+<p>然后保存重启 vs.</p>
+<p>2：彻底卸载 vs 然后开发工具选所有和 c<ins> 有关的，如果你不是就选择和其他语言有关的，因为我是 c</ins>。（多说一句，当你的文件配置误删的话，就做好之前项目没有的准备，一切都要从 0 开始），然后选择你电脑 wind 的版本对应的 sdk，例如 win11 就下载 win11sdk。然后在项目属性里重新定向版本，如果还是找不到，就用上面的办法</p>
+<p>3：彻底没办法怎么弄都弄不好，没有关系，重新去注册一个 VS 账号，把 VS 清理残余彻底一点，拿来直接就好。</p>
+<p>4：要是你不想注册也不想删除，电脑空间也不是很大，也没太多内容，直接去备份重装系统就好（这是最最最坏的办法），不到万不得已不要用这个方法，万一没好，得不偿失。</p>
+<p>希望能帮到大家！！</p>
+<p><em><strong>cout 和 cin 无法定义</strong></em></p>
+<p>再顺便把这个也给你们说了吧，省的我再发博客。这个其实最简单，不是系统问题，是你之前定义的类没有括号和有部分不小心删了，反回值不对，多去检查一下代码！！！</p>
+
+
+    <!-- Social share choices -->
+    
+  <div id="social-share">
+    <a data-url="http://example.com/2024/05/10/vs%E5%A4%A7%E9%87%8F%E6%8A%A5%E9%94%99/" target="_blank" rel="noopener" href="https://plus.google.com/share?url=" class="googleplus"><img src="/image/googleplusicon.png" alt=""/></a>
+    <a data-url="http://example.com/2024/05/10/vs%E5%A4%A7%E9%87%8F%E6%8A%A5%E9%94%99/" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?url=" class="twitter"><img src="/image/twittericon.png" alt=""/></a>
+    <a data-url="http://example.com/2024/05/10/vs%E5%A4%A7%E9%87%8F%E6%8A%A5%E9%94%99/" target="_blank" rel="noopener" href="http://pinterest.com/pin/create/button/?url=" class="pinterest"><img src="/image/pinteresticon.png" alt=""/></a>
+    <a data-url="http://example.com/2024/05/10/vs%E5%A4%A7%E9%87%8F%E6%8A%A5%E9%94%99/" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=" class="facebook"><img src="/image/facebookicon.png" alt=""/></a>
+  </div>
+
+
+
+
+
+<!--
+
+
+https://www.facebook.com/sharer/sharer.php?u=http://example.com/2024/05/10/vs%E5%A4%A7%E9%87%8F%E6%8A%A5%E9%94%99/
+http://example.com/2024/05/10/vs%25E5%25A4%25A7%25E9%2587%258F%25E6%258A%25A5%25E9%2594%2599/
+-->
+
+
+
+    <hr />
+
+
+    <!-- Tags and Categories links -->
+    
+
+    
+
+
+    <!-- Comment using disqus -->
+    
+
+</div>
+</div>
+
+
+  </div>
+  <!-- Footer -->
+  <div id="footer">
+  <div id="footer-social">
+    
+    
+    
+    
+    
+    
+</div>
+
+  <p id="footer-info">
+    &copy; 2024 John Doe<br>
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> -
+    Theme <a href="https://github.com/Suolawangzai/hexo-theme-nebula" target="_blank">nebula</a>
+  </p>
+
+  <div id="busuanzi">
+    <span id="busuanzi_container_site_pv">
+      &hearts;
+    Total visits: <span id="busuanzi_value_site_pv"></span>
+    </span>
+  </div>
+  <!--
+  <div id="footer-info">
+    &copy; 2024 John Doe<br>
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+  </div>
+-->
+</div>
+
+  <!-- After footer scripts -->
+  <!-- Disqus Comments -->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/main.js"></script>
+
+
+</body>
+
+</html>
