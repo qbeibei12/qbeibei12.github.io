@@ -1,270 +1,175 @@
-<html>
-
-<head>
-    <meta charset="utf-8">
-    
-    <title>Hexo</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="/favicon/favicon.ico">
-    
-<link rel="stylesheet" href="/css/main.css">
-
-    
-<link rel="stylesheet" href="/css/tagplugins.css">
-
-    
-<link rel="stylesheet" href="/css/highlight.css">
-
-    
-
-
-    <!-- rss -->
-    
-    
-      <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml" />
-    
-<meta name="generator" content="Hexo 7.2.0"></head>
-
-<body>
-  <div class="blog-header">
-   <a id="menu-nav-icon"><img src="/image/menu.png"/></a>
-   <div class="nav-container">
-     <nav id="main-nav">
-       
-         <a class="main-nav-link" href="/">Home</a>
-       
-         <a class="main-nav-link" href="/archives">Archives</a>
-       
-     </nav>
-   </div>
-   <!--
-   <div id="search-form-wrap">
-     <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-   </div>
- -->
-    <h1 class="blog-title">Hexo</h1>
-    <p class="lead blog-description"></p>
-</div>
-
-  <div id='main-part'>
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hexo',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-05-14 16:52:02'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
       
-    <div class="main">
-<div class="blog-post">
-    <!-- Title -->
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
     
-      <h1 class="blog-post-title">
-        <a href="/2024/05/14/vs%E7%BC%96%E8%AF%91%E5%99%A8%E9%94%99%E8%AF%AF/">Vs编译器错误</a>
-      </h1>
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
     
-    <!-- Date and Author -->
-    <p class="blog-post-meta">
-        2024-05-14
-        
-    </p>
-
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
     
-
-    <!-- Content -->
-    <p><strong>visual studio2022 编译器错误</strong></p>
-<p>编译器错误问题及解决办法，相信有些同学在经历编译器报错并重新修复编译器的时候，又会发现迎面而来的各种问题，接下来我给大家分享一下。遇到这种问题应该怎么办，如下图</p>
-<p><img src="/photo/$%7Bfiilename%7D/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-05-14%20151750.png" alt="屏幕截图 2024-05-14 151750"></p>
-<p>下面是我用 c++ 写的一个类模板，写好之后调试运行，发先编译器编译成功，并且没有报错。但是一运行，调试框什么都没有。重启之后也没有用。解决办法也很简单，一般这种情况是编译器版本过低或者 SDK 文件版低。去重新检查版本问题，并且复制原来代码。重新创建一个新的项目，粘贴运行就好。成功之后就像上图左下角所示（名字，年龄是我随便写的）。</p>
-
-    <!-- Only display the Read More link if we are displaying an excerpt -->
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-
-    <hr />
-
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Hexo"><span class="site-name">Hexo</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Hexo</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2024/05/14/vs%E7%BC%96%E8%AF%91%E5%99%A8%E9%94%99%E8%AF%AF/" title="vs编译器错误">vs编译器错误</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-05-14T07:19:14.000Z" title="Created 2024-05-14 15:19:14">2024-05-14</time></span></div><div class="content">visual studio2022 编译器错误
+编译器错误问题及解决办法，相信有些同学在经历编译器报错并重新修复编译器的时候，又会发现迎面而来的各种问题，接下来我给大家分享一下。遇到这种问题应该怎么办，如下图
 
-    
+下面是我用 c++ 写的一个类模板，写好之后调试运行，发先编译器编译成功，并且没有报错。但是一运行，调试框什么都没有。重启之后也没有用。解决办法也很简单，一般这种情况是编译器版本过低或者 SDK 文件版低。去重新检查版本问题，并且复制原来代码。重新创建一个新的项目，粘贴运行就好。成功之后就像上图左下角所示（名字，年龄是我随便写的）。
+</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2024/05/10/vs%E5%A4%A7%E9%87%8F%E6%8A%A5%E9%94%99/" title="vs大量报错">vs大量报错</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-05-10T07:46:10.000Z" title="Created 2024-05-10 15:46:10">2024-05-10</time></span></div><div class="content">兄弟们，我简直无语了。最近一觉醒来，发现我的 visual stdio2022 出现大量报错，原本写好的程序全部报错，打不开各个头文件，这个 bug 简直要了我的老命。去网上搜了搜教程各种五花八门的操作都有，什么包含头文件之类的，教你用重定向设置版本的。我都试过了没用，不过到重定向设置版本再去运行的时候，有了一个报错，这是一个好消息，至少终于知道问题在哪里了，之后在我的一番折腾，把 vs 删了又卸载了 20 多次终于弄好了。
+接下来我给大家说一下问题吧，问题出在你最近格式化磁盘，还有清理电脑垃圾的时候清理了依赖项包。突然报错的原因是因为系统本身的内置缓存区会使用你在没删除之前的配置，当年删除后，顶多运行几个程序就出现大量报错。而且你再无论怎么安装卸载都不管用，你登陆了 VS 账号，他会保存你所有设置，包括你删除修改的设置，即使你使用安装里面的修复也没用，当你安装了重定向的版本 sdk 再去属性里配置也没用，他还是会告诉你找不到。废话不多说，直接上解决办法。
+解决 1：找到如下图片的位置，一般默认在你安装的公布各项插件的磁盘里，把配置改成我的这个配置
 
+然后保存重启 vs.
+2：彻底卸载 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2024/05/07/%E6%84%9F%E8%B0%A2%E9%81%87%E8%A7%81%E4%BD%A0/" title="很高兴遇见你">很高兴遇见你</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-05-07T07:18:21.000Z" title="Created 2024-05-07 15:18:21">2024-05-07</time></span></div><div class="content">#很高兴遇见你
+嘿嘿，虽然我们已经分手了，但是我是个笨蛋，我不会像普通人那样很容易从一段感情中走出来，我有时总是不自觉的去烦你，我知道我们已经结束了！难道这就是命运。。。如果上天要决定将我们彼此错过的话，那我又怎会顺从它意，我希望用我自己的行动去改变那个结局！！！
+#希望你每天开心
+并不是我每天会如此沉沦，只会在我最需要一个人的时候，你恰好出现在我的回忆当中。。会想起你多好多好哈哈哈，有可能你都认识了新的好朋友，他意气风发，你风华正茂，而他又是你喜欢的类型。多去大胆一点吧！我们或许多多少少会自卑，但是人总是在成长的，也希望你在没有我的日子里依然有人去疼。
+#我会在等你
+也好，我现在也很少玩游戏了，我们也见不到面，也会因为分手后的尴尬而不敢一起分享一些事情。我知道，即使你也喜欢我，我也没办法再距离那么远的地方及时的给你很多的爱。恰好，出现了这么一个人，他能满足你所有的要求。  那就当他会替我好好的照顾你吧！如果你有一天也会很不理智了，那么请先收起你的尴尬，在做任何一件事情之前。回想一下。。。。至少还有一个笨蛋等着你呢！！！！
+#我一定会回来的
+我一定会回来的，不管用什么方式。但我一定会回 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2024/05/07/%E7%AC%91%E5%82%B2%E5%8D%9A%E5%AE%A2%E9%A3%8E%E4%BA%91/" title="笑傲博客风云">笑傲博客风云</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-05-07T07:08:32.000Z" title="Created 2024-05-07 15:08:32">2024-05-07</time></span></div><div class="content">误入 “博” 途，一切从零开始
+话说那天，阳光明媚，我误入江湖，踏入这片神秘的土地 ——“博客”。是的，你没听错，我就是一个博客新手，刚刚踏上这片充满奇遇和挑战的江湖。在此之前，我对博客的了解几乎为零。但我相信，无知者无畏，我定能在这片土地上闯出一片天地！
+博客新手，崭露锋芒！！
+身为新手，当然要了解一下博客的世界。博客，又称网络日志，是人们分享心得、交流思想的平台。在这里，我可以畅所欲言，讲述生活中的点点滴滴，也可以结识志同道合的朋友，共同探讨人生百态。那么，作为一个新手，我要如何在博客这个世界里立足呢？答案就是：笑对人生百态，用心去感悟这个世界！
 
-
-</div>
-</div>
-
-
-    <div class="main">
-<div class="blog-post">
-    <!-- Title -->
-    
-      <h1 class="blog-post-title">
-        <a href="/2024/05/10/vs%E5%A4%A7%E9%87%8F%E6%8A%A5%E9%94%99/">Vs大量报错</a>
-      </h1>
-    
-    <!-- Date and Author -->
-    <p class="blog-post-meta">
-        2024-05-10
-        
-    </p>
-
-    
-
-    <!-- Content -->
-    <p>兄弟们，我简直无语了。最近一觉醒来，发现我的 visual stdio2022 出现大量报错，原本写好的程序全部报错，打不开各个头文件，这个 bug 简直要了我的老命。去网上搜了搜教程各种五花八门的操作都有，什么包含头文件之类的，教你用重定向设置版本的。我都试过了没用，不过到重定向设置版本再去运行的时候，有了一个报错，这是一个好消息，至少终于知道问题在哪里了，之后在我的一番折腾，把 vs 删了又卸载了 20 多次终于弄好了。<br>
-接下来我给大家说一下问题吧，问题出在你最近格式化磁盘，还有清理电脑垃圾的时候清理了依赖项包。突然报错的原因是因为系统本身的内置缓存区会使用你在没删除之前的配置，当年删除后，顶多运行几个程序就出现大量报错。而且你再无论怎么安装卸载都不管用，你登陆了 VS 账号，他会保存你所有设置，包括你删除修改的设置，即使你使用安装里面的修复也没用，当你安装了重定向的版本 sdk 再去属性里配置也没用，他还是会告诉你找不到。废话不多说，直接上解决办法。<br>
-解决 1：找到如下图片的位置，一般默认在你安装的公布各项插件的磁盘里，把配置改成我的这个配置</p>
-<p><img src="/photo/$%7Bfiilename%7D/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-05-10%20153315.png" alt="屏幕截图 2024-05-10 153315"></p>
-<p>然后保存重启 vs.</p>
-<p>2：彻底卸载 vs 然后开发工具选所有和 c<ins> 有关的，如果你不是就选择和其他语言有关的，因为我是 c</ins>。（多说一句，当你的文件配置误删的话，就做好之前项目没有的准备，一切都要从 0 开始），然后选择你电脑 wind 的版本对应的 sdk，例如 win11 就下载 win11sdk。然后在项目属性里重新定向版本，如果还是找不到，就用上面的办法</p>
-<p>3：彻底没办法怎么弄都弄不好，没有关系，重新去注册一个 VS 账号，把 VS 清理残余彻底一点，拿来直接就好。</p>
-<p>4：要是你不想注册也不想删除，电脑空间也不是很大，也没太多内容，直接去备份重装系统就好（这是最最最坏的办法），不到万不得已不要用这个方法，万一没好，得不偿失。</p>
-<p>希望能帮到大家！！</p>
-<p><em><strong>cout 和 cin 无法定义</strong></em></p>
-<p>再顺便把这个也给你们说了吧，省的我再发博客。这个其实最简单，不是系统问题，是你之前定义的类没有括号和有部分不小心删了，反回值不对，多去检查一下代码！！！</p>
-
-    <!-- Only display the Read More link if we are displaying an excerpt -->
-    
-
-    <hr />
-
-    
-
-    
-
-
-
-</div>
-</div>
-
-
-    <div class="main">
-<div class="blog-post">
-    <!-- Title -->
-    
-      <h1 class="blog-post-title">
-        <a href="/2024/05/07/%E6%84%9F%E8%B0%A2%E9%81%87%E8%A7%81%E4%BD%A0/">很高兴遇见你</a>
-      </h1>
-    
-    <!-- Date and Author -->
-    <p class="blog-post-meta">
-        2024-05-07
-        
-    </p>
-
-    
-
-    <!-- Content -->
-    <p>#<strong>很高兴遇见你</strong></p>
-<p>嘿嘿，虽然我们已经分手了，但是我是个笨蛋，我不会像普通人那样很容易从一段感情中走出来，我有时总是不自觉的去烦你，我知道我们已经结束了！难道这就是命运。。。如果上天要决定将我们彼此错过的话，那我又怎会顺从它意，我希望用我自己的行动去改变那个结局！！！</p>
-<p>#<strong>希望你每天开心</strong></p>
-<p>并不是我每天会如此沉沦，只会在我最需要一个人的时候，你恰好出现在我的回忆当中。。会想起你多好多好哈哈哈，有可能你都认识了新的好朋友，他意气风发，你风华正茂，而他又是你喜欢的类型。多去大胆一点吧！我们或许多多少少会自卑，但是人总是在成长的，也希望你在没有我的日子里依然有人去疼。</p>
-<p>#<strong>我会在等你</strong></p>
-<p>也好，我现在也很少玩游戏了，我们也见不到面，也会因为分手后的尴尬而不敢一起分享一些事情。我知道，即使你也喜欢我，我也没办法再距离那么远的地方及时的给你很多的爱。恰好，出现了这么一个人，他能满足你所有的要求。  <img src="/photo/$%7Bfiilename%7D/716b1cc1a7ef774ba0f7ac1ceb64a16e.jpg" alt>那就当他会替我好好的照顾你吧！如果你有一天也会很不理智了，那么请先收起你的尴尬，在做任何一件事情之前。回想一下。。。。至少还有一个笨蛋等着你呢！！！！</p>
-<p>#<strong>我一定会回来的</strong></p>
-<p>我一定会回来的，不管用什么方式。但我一定会回来的，你在我眼中永远都是一个小孩子，说了那么多道理，可是一遇到事情，道理总是抛掷脑后。你又让我如何放心的下，我不想一直束缚住你，大胆放心的去爱。<img src="/photo/$%7Bfiilename%7D/b978254ed73b285c3abeb8a20512fb61.jpg" alt>多去经历，你总能找到真正喜欢你的人。在我们无法彼此互相粘着的时候，我会努力学习，努力奋斗。如果会有那一天，一定是为了我们更好的生活。。</p>
-
-    <!-- Only display the Read More link if we are displaying an excerpt -->
-    
-
-    <hr />
-
-    
-
-    
-
-
-
-</div>
-</div>
-
-
-    <div class="main">
-<div class="blog-post">
-    <!-- Title -->
-    
-      <h1 class="blog-post-title">
-        <a href="/2024/05/07/%E7%AC%91%E5%82%B2%E5%8D%9A%E5%AE%A2%E9%A3%8E%E4%BA%91/">笑傲博客风云</a>
-      </h1>
-    
-    <!-- Date and Author -->
-    <p class="blog-post-meta">
-        2024-05-07
-        
-    </p>
-
-    
-
-    <!-- Content -->
-    <p>误入 “博” 途，一切从零开始</p>
-<p>话说那天，阳光明媚，我误入江湖，踏入这片神秘的土地 ——“博客”。是的，你没听错，我就是一个博客新手，刚刚踏上这片充满奇遇和挑战的江湖。在此之前，我对博客的了解几乎为零。但我相信，无知者无畏，我定能在这片土地上闯出一片天地！</p>
-<p>博客新手，崭露锋芒！！</p>
-<p>身为新手，当然要了解一下博客的世界。博客，又称网络日志，是人们分享心得、交流思想的平台。在这里，我可以畅所欲言，讲述生活中的点点滴滴，也可以结识志同道合的朋友，共同探讨人生百态。那么，作为一个新手，我要如何在博客这个世界里立足呢？答案就是：笑对人生百态，用心去感悟这个世界！</p>
-<p><img src="/photo/$%7Bfiilename%7D/aaa.jpg" alt></p>
-<p>探秘博客世界，笑对人生百态</p>
-<p>初入博客，我被这里的繁华所吸引。各式各样的博客，犹如江湖中的武林高手，各具特色。有的幽默风趣，让人忍俊不禁；有的深入浅出，让人受益匪浅；有的激情四溢，让人热血沸腾。而我，也将成为这个江湖中的一员，带着我的笑容和故事，笑对人生百态。</p>
-<p>为何选择它，听听我的故事</p>
-<p>它为何如此魅力无穷？为何我能毅然决然地投身于这个江湖？这一切，都要从我的一个梦想说起。我梦想着，有一天，我的文字能够温暖他人的心灵；我梦想着，有一天，我的故事能够激励更多的人。而博客，正是实现这个梦想的最佳舞台。在这里，我可以畅所欲言，让我的文字和故事传遍四海。</p>
-<p>博客江湖，我来也！</p>
-<p>俗语说：“初生牛犊不怕虎。” 作为一个博客新手，我无畏无惧，勇往直前。我将带着我的笑容和故事，闯荡这个博客江湖，与各位高手过招，共同成长。让我们一起，笑傲博客风云！</p>
-<p>最后，我要感谢每一位阅读这篇文章的朋友。你们的关注和支持，是我前行的动力。在未来的日子里，让我们一起，笑对人生百态，共同书写博客江湖的精彩篇章！<img src alt></p>
-
-    <!-- Only display the Read More link if we are displaying an excerpt -->
-    
-
-    <hr />
-
-    
-
-    
-
-
-
-</div>
-</div>
-
-
-
-
-
-
-  </div>
-  <!-- Footer -->
-  <div id="footer">
-  <div id="footer-social">
-    
-    
-    
-    
-    
-    
-</div>
-
-  <p id="footer-info">
-    &copy; 2024 John Doe<br>
-    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> -
-    Theme <a href="https://github.com/Suolawangzai/hexo-theme-nebula" target="_blank">nebula</a>
-  </p>
-
-  <div id="busuanzi">
-    <span id="busuanzi_container_site_pv">
-      &hearts;
-    Total visits: <span id="busuanzi_value_site_pv"></span>
-    </span>
-  </div>
-  <!--
-  <div id="footer-info">
-    &copy; 2024 John Doe<br>
-    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-  </div>
--->
-</div>
-
-  <!-- After footer scripts -->
-  <!-- Disqus Comments -->
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<script src="/js/main.js"></script>
-
-
-</body>
-
-</html>
+探秘博客世界，笑对人生百态
+初入博客，我被这里的繁华所吸引。各式各样的博客，犹如江湖中的武林高手，各具特色。有的幽默风趣，让人忍俊不禁；有的深入浅出，让人受益匪浅；有的激情四溢，让人热血沸腾。而我，也将成为这个江湖中的一员，带着我的笑容和故事，笑对人生百态。
+为何选择它，听听我的故事
+它为何如此魅力无穷？为何我能毅然决然地投身于这个江湖？这一切，都要从我的一个梦想说起。我梦想着，有一天，我的文字能够温暖他人的心灵；我梦想着，有一天，我的 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/2024/05/14/vs%E7%BC%96%E8%AF%91%E5%99%A8%E9%94%99%E8%AF%AF/" title="vs编译器错误">vs编译器错误</a><time datetime="2024-05-14T07:19:14.000Z" title="Created 2024-05-14 15:19:14">2024-05-14</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2024/05/10/vs%E5%A4%A7%E9%87%8F%E6%8A%A5%E9%94%99/" title="vs大量报错">vs大量报错</a><time datetime="2024-05-10T07:46:10.000Z" title="Created 2024-05-10 15:46:10">2024-05-10</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2024/05/07/%E6%84%9F%E8%B0%A2%E9%81%87%E8%A7%81%E4%BD%A0/" title="很高兴遇见你">很高兴遇见你</a><time datetime="2024-05-07T07:18:21.000Z" title="Created 2024-05-07 15:18:21">2024-05-07</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2024/05/07/%E7%AC%91%E5%82%B2%E5%8D%9A%E5%AE%A2%E9%A3%8E%E4%BA%91/" title="笑傲博客风云">笑傲博客风云</a><time datetime="2024-05-07T07:08:32.000Z" title="Created 2024-05-07 15:08:32">2024-05-07</time></div></div></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">May 2024</span><span class="card-archive-list-count">4</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article :</div><div class="item-count">4</div></div><div class="webinfo-item"><div class="item-name">UV :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">PV :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Update :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-05-14T08:52:02.358Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
