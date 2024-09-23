@@ -159,6 +159,90 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://act.beibei/2024/05/10/vs%E5%A4%A7%E9%87%8F%E6%8A%A5%E9%94%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240918155117.jpg">
+      <meta itemprop="name" content="Act">
+      <meta itemprop="description" content="ue使你开心，虚幻创造快乐">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Act@博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/10/vs%E5%A4%A7%E9%87%8F%E6%8A%A5%E9%94%99/" class="post-title-link" itemprop="url">VS大量报错</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-05-10 15:46:10" itemprop="dateCreated datePublished" datetime="2024-05-10T15:46:10+08:00">2024-05-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-09-18 19:36:39" itemprop="dateModified" datetime="2024-09-18T19:36:39+08:00">2024-09-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>兄弟们，我简直无语了。最近一觉醒来，发现我的 visual stdio2022 出现大量报错，原本写好的程序全部报错，打不开各个头文件，这个 bug 简直要了我的老命。去网上搜了搜教程各种五花八门的操作都有，什么包含头文件之类的，教你用重定向设置版本的。我都试过了没用，不过到重定向设置版本再去运行的时候，有了一个报错，这是一个好消息，至少终于知道问题在哪里了，之后在我的一番折腾，把 vs 删了又卸载了 20 多次终于弄好了。<br>
+接下来我给大家说一下问题吧，问题出在你最近格式化磁盘，还有清理电脑垃圾的时候清理了依赖项包。突然报错的原因是因为系统本身的内置缓存区会使用你在没删除之前的配置，当年删除后，顶多运行几个程序就出现大量报错。而且你再无论怎么安装卸载都不管用，你登陆了 VS 账号，他会保存你所有设置，包括你删除修改的设置，即使你使用安装里面的修复也没用，当你安装了重定向的版本 sdk 再去属性里配置也没用，他还是会告诉你找不到。废话不多说，直接上解决办法。<br>
+解决 1：找到如下图片的位置，一般默认在你安装的公布各项插件的磁盘里，把配置改成我的这个配置</p>
+<p><img src="/photo/$%7Bfiilename%7D/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-05-10%20153315.png" alt="屏幕截图 2024-05-10 153315"></p>
+<p>然后保存重启 vs.</p>
+<p>2：彻底卸载 vs 然后开发工具选所有和 c<ins> 有关的，如果你不是就选择和其他语言有关的，因为我是 c</ins>。（多说一句，当你的文件配置误删的话，就做好之前项目没有的准备，一切都要从 0 开始），然后选择你电脑 wind 的版本对应的 sdk，例如 win11 就下载 win11sdk。然后在项目属性里重新定向版本，如果还是找不到，就用上面的办法</p>
+<p>3：彻底没办法怎么弄都弄不好，没有关系，重新去注册一个 VS 账号，把 VS 清理残余彻底一点，拿来直接就好。</p>
+<p>4：要是你不想注册也不想删除，电脑空间也不是很大，也没太多内容，直接去备份重装系统就好（这是最最最坏的办法），不到万不得已不要用这个方法，万一没好，得不偿失。</p>
+<p>希望能帮到大家！！</p>
+<p><em><strong>cout 和 cin 无法定义</strong></em></p>
+<p>再顺便把这个也给你们说了吧，省的我再发博客。这个其实最简单，不是系统问题，是你之前定义的类没有括号和有部分不小心删了，反回值不对，多去检查一下代码！！！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://act.beibei/2024/05/07/%E7%AC%91%E5%82%B2%E5%8D%9A%E5%AE%A2%E9%A3%8E%E4%BA%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -296,7 +380,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

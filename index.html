@@ -159,6 +159,371 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://act.beibei/2024/09/23/d3d11-imgui%E7%BB%98%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240918155117.jpg">
+      <meta itemprop="name" content="Act">
+      <meta itemprop="description" content="ue使你开心，虚幻创造快乐">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Act@博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/09/23/d3d11-imgui%E7%BB%98%E5%88%B6/" class="post-title-link" itemprop="url">d3d11+imgui绘制</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-09-23 17:27:30 / 修改时间：17:43:47" itemprop="dateCreated datePublished" datetime="2024-09-23T17:27:30+08:00">2024-09-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8F%8D%E6%B1%87%E7%BC%96/" itemprop="url" rel="index"><span itemprop="name">反汇编</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>——————————————————————————————————————————————————</p>
+<p><strong>D3D11+imgui 菜单绘制源码</strong></p>
+<p>今天带给大家新版 d3d11 绘制源码，没有使用 hook 函数，不说禁用 z 轴缓冲的一个，主要实现原理是找游戏人物矩阵基质然后找进程 id 和游戏类名，画线无闪烁的绘制。</p>
+<p>话不多说直接上源码，首先配置 imgui 环境，网上有教程。然后把下面源码复制过去直接用，换一下上面我说的东西，就可以。有兴趣的可以自己去找矩阵基址，我懒得找。源码是完全正确的，不用担心。</p>
+<p>#pragma comment(lib,“d3d11.lib”)<br>
+#include “imgui/imgui.h”<br>
+#include “imgui/imgui_impl_win32.h”<br>
+#include “imgui/imgui_impl_dx11.h”<br>
+#include &lt;d3d11.h&gt;<br>
+#include &lt;tchar.h&gt;<br>
+#include <string><br>
+int pid = 9956;<br>
+HANDLE 游戏句柄；<br>
+int 矩阵模块地址 = 0X01400000;<br>
+int 坐标模块地址 = 0X7B4E0000;<br>
+struct v3d<br>
+{<br>
+float x;<br>
+float y;<br>
+float z;<br>
+};<br>
+struct v4d<br>
+{<br>
+float x;<br>
+float y;<br>
+float z;<br>
+float w;<br>
+};<br>
+v3d 游戏坐标；<br>
+v4d 窗口转换坐标；<br>
+float 矩阵数组 [4][4];<br>
+RECT 窗口矩形；<br>
+// Data<br>
+static ID3D11Device* g_pd3dDevice = nullptr;<br>
+static ID3D11DeviceContext* g_pd3dDeviceContext = nullptr;<br>
+static IDXGISwapChain* g_pSwapChain = nullptr;<br>
+static bool                     g_SwapChainOccluded = false;<br>
+static UINT                     g_ResizeWidth = 0, g_ResizeHeight = 0;<br>
+static ID3D11RenderTargetView* g_mainRenderTargetView = nullptr;</string></p>
+<p>// Forward declarations of helper functions<br>
+bool CreateDeviceD3D(HWND hWnd);<br>
+void CleanupDeviceD3D();<br>
+void CreateRenderTarget();<br>
+void CleanupRenderTarget();<br>
+LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);</p>
+<p>bool 绘制函数 ()<br>
+{<br>
+int 缓冲区；<br>
+float 缩放比例，d3d 矩阵 z, d3d 矩阵 x, d3d 矩阵 y, d3d 矩阵 y2;<br>
+for (int i = 0; i &lt; 9; i++)<br>
+{<br>
+游戏句柄 = OpenProcess (PROCESS_ALL_ACCESS, FALSE, pid);<br>
+ReadProcessMemory (游戏句柄，(LPCVOID)(矩阵模块地址 + 0X1820100), &amp; 游戏坐标，64, NULL);<br>
+ReadProcessMemory (游戏句柄，(LPCVOID)(坐标模块地址 + 0X22568+i*0X31D0), &amp; 缓冲区，4, NULL);<br>
+ReadProcessMemory (游戏句柄，(LPCVOID)(缓冲区 + 0X88), &amp; 矩阵数组，12, NULL);<br>
+d3d 矩阵 z = 矩阵数组 [0][3] * 游戏坐标.x + 矩阵数组 [1][3] * 游戏坐标.y + 矩阵数组 [2][3] * 游戏坐标.z + 矩阵数组 [3][3];<br>
+if (d3d 矩阵 z &lt; 0.01)<br>
+{<br>
+return false;<br>
+}<br>
+ 缩放比例 = 1 /d3d 矩阵 z;<br>
+d3d 矩阵 x = (float) 窗口矩形.right/ 2 + (矩阵数组 [0][0] * 游戏坐标.x + 矩阵数组 [1][0] * 游戏坐标.y + 矩阵数组 [2][0] * 游戏坐标.z + 矩阵数组 [3][0]) * 缩放比例 * (float) 窗口矩形.right/ 2;<br>
+d3d 矩阵 y = (float) 窗口矩形.bottom/ 2 - (矩阵数组 [0][1] * 游戏坐标.x + 矩阵数组 [1][1] * 游戏坐标.y + 矩阵数组 [2][1] * 游戏坐标.z + 矩阵数组 [3][1]) * 缩放比例 * (float) 窗口矩形.bottom/ 2;<br>
+d3d 矩阵 y2 = (float) 窗口矩形.bottom/ 2 - (矩阵数组 [0][1] * 游戏坐标.x + 矩阵数组 [1][1] * 游戏坐标.y + 矩阵数组 [2][1] * (游戏坐标.z + 70) + 矩阵数组 [3][1]) * 缩放比例 * (float) 窗口矩形.bottom/ 2;<br>
+ 窗口转换坐标.x = d3d 矩阵 x - (d3d 矩阵 y2 - d3d 矩阵 y) / 4;<br>
+ 窗口转换坐标.y = d3d 矩阵 y - (d3d 矩阵 y2 - d3d 矩阵 y) / 2;<br>
+ 窗口转换坐标.z = d3d 矩阵 y2 - d3d 矩阵 y;<br>
+ 窗口转换坐标.w = (d3d 矩阵 y2 - d3d 矩阵 y) / 2;<br>
+ImGui::GetForegroundDrawList ()-&gt;AddLine (ImVec2 (窗口转换坐标.x, 窗口转换坐标.y), ImVec2 (窗口转换坐标.x + 窗口转换坐标.w, 窗口转换坐标.y), ImColor (0, 245, 255, 255));<br>
+ImGui::GetForegroundDrawList ()-&gt;AddLine (ImVec2 (窗口转换坐标.x + 窗口转换坐标.w, 窗口转换坐标.y), ImVec2 (窗口转换坐标.x + 窗口转换坐标.w, 窗口转换坐标.y + 窗口转换坐标.z), ImColor (0, 245, 255, 255));<br>
+ImGui::GetForegroundDrawList ()-&gt;AddLine (ImVec2 (窗口转换坐标.x + 窗口转换坐标.w, 窗口转换坐标.y + 窗口转换坐标.z), ImVec2 (窗口转换坐标.x, 窗口转换坐标.y + 窗口转换坐标.z), ImColor (0, 245, 255, 255));<br>
+ImGui::GetForegroundDrawList ()-&gt;AddLine (ImVec2 (窗口转换坐标.x, 窗口转换坐标.y + 窗口转换坐标.z), ImVec2 (窗口转换坐标.x, 窗口转换坐标.y), ImColor (0, 245, 255, 255));<br>
+ImGui::GetForegroundDrawList ()-&gt;AddLine (ImVec2 (窗口矩形.right * 0.5, 0), ImVec2 (窗口转换坐标.x + 窗口转换坐标.w/ 2, 窗口转换坐标.z + 窗口转换坐标.y), ImColor (0.245, 255, 255));<br>
+}<br>
+}</p>
+<p>// Main code<br>
+int main(int, char**)<br>
+{<br>
+POINT 坐标；<br>
+HWND 游戏窗口句柄 = FindWindowA (“Valve001”, NULL);<br>
+// Create application window<br>
+//ImGui_ImplWin32_EnableDpiAwareness();<br>
+WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L&quot;ImGui Example&quot;, nullptr };<br>
+::RegisterClassExW(&amp;wc);<br>
+HWND hwnd = ::CreateWindowEx(WS_EX_TOPMOST| WS_EX_LAYERED,wc.lpszClassName, L&quot;Dear ImGui DirectX11 Example&quot;, WS_POPUP, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);</p>
+<pre><code>// Initialize Direct3D
+if (!CreateDeviceD3D(hwnd))
+&#123;
+    CleanupDeviceD3D();
+    ::UnregisterClassW(wc.lpszClassName, wc.hInstance);
+    return 1;
+&#125;
+
+// Show the window
+::ShowWindow(hwnd, SW_SHOWDEFAULT);
+::UpdateWindow(hwnd);
+
+// Setup Dear ImGui context
+IMGUI_CHECKVERSION();
+ImGui::CreateContext();
+ImGuiIO&amp; io = ImGui::GetIO(); (void)io;
+io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+// Setup Dear ImGui style
+ImGui::StyleColorsDark();
+//ImGui::StyleColorsLight();
+
+// Setup Platform/Renderer backends
+ImGui_ImplWin32_Init(hwnd);
+ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
+
+// Load Fonts
+// - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
+// - AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.
+// - If the file cannot be loaded, the function will return a nullptr. Please handle those errors in your application (e.g. use an assertion, or display an error and quit).
+// - The fonts will be rasterized at a given size (w/ oversampling) and stored into a texture when calling ImFontAtlas::Build()/GetTexDataAsXXXX(), which ImGui_ImplXXXX_NewFrame below will call.
+// - Use '#define IMGUI_ENABLE_FREETYPE' in your imconfig file to use Freetype for higher quality font rendering.
+// - Read 'docs/FONTS.md' for more instructions and details.
+// - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
+//io.Fonts-&gt;AddFontDefault();
+//io.Fonts-&gt;AddFontFromFileTTF(&quot;c:\\Windows\\Fonts\\segoeui.ttf&quot;, 18.0f);
+//io.Fonts-&gt;AddFontFromFileTTF(&quot;../../misc/fonts/DroidSans.ttf&quot;, 16.0f);
+//io.Fonts-&gt;AddFontFromFileTTF(&quot;../../misc/fonts/Roboto-Medium.ttf&quot;, 16.0f);
+//io.Fonts-&gt;AddFontFromFileTTF(&quot;../../misc/fonts/Cousine-Regular.ttf&quot;, 15.0f);
+//ImFont* font = io.Fonts-&gt;AddFontFromFileTTF(&quot;c:\\Windows\\Fonts\\ArialUni.ttf&quot;, 18.0f, nullptr, io.Fonts-&gt;GetGlyphRangesJapanese());
+//IM_ASSERT(font != nullptr);
+
+// Our state
+bool show_demo_window = true;
+bool show_another_window = false;
+ImVec4 clear_color = ImVec4(ImColor(255, 255, 255));
+SetLayeredWindowAttributes(hwnd, ImColor(255, 255, 255), 0, LWA_COLORKEY);
+
+
+// Main loop
+bool done = false;
+while (!done)
+&#123;
+    // Poll and handle messages (inputs, window resize, etc.)
+    // See the WndProc() function below for our to dispatch events to the Win32 backend.
+    MSG msg;
+    while (::PeekMessage(&amp;msg, nullptr, 0U, 0U, PM_REMOVE))
+    &#123;
+        ::TranslateMessage(&amp;msg);
+        ::DispatchMessage(&amp;msg);
+        if (msg.message == WM_QUIT)
+            done = true;
+    &#125;
+    if (done)
+        break;
+
+    // Handle window being minimized or screen locked
+    if (g_SwapChainOccluded &amp;&amp; g_pSwapChain-&gt;Present(0, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED)
+    &#123;
+        ::Sleep(10);
+        continue;
+    &#125;
+    g_SwapChainOccluded = false;
+
+    // Handle window resize (we don't resize directly in the WM_SIZE handler)
+    if (g_ResizeWidth != 0 &amp;&amp; g_ResizeHeight != 0)
+    &#123;
+        CleanupRenderTarget();
+        g_pSwapChain-&gt;ResizeBuffers(0, g_ResizeWidth, g_ResizeHeight, DXGI_FORMAT_UNKNOWN, 0);
+        g_ResizeWidth = g_ResizeHeight = 0;
+        CreateRenderTarget();
+    &#125;
+
+    // Start the Dear ImGui frame
+    ImGui_ImplDX11_NewFrame();  
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+
+    GetClientRect(游戏窗口句柄, &amp;窗口矩形);
+    坐标.x = 窗口矩形.left;
+    坐标.y = 窗口矩形.top; 
+    MoveWindow(hwnd, 坐标.x, 坐标.y, 窗口矩形.right, 窗口矩形.bottom, true);
+    ClientToScreen(游戏窗口句柄, &amp;坐标);
+    // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+    if (show_demo_window)
+    &#123;
+        ImGui::StyleColorsLight();
+        绘制函数();
+        ImGui::Begin(&quot;demo&quot;, &amp;show_demo_window);
+        ImGui::Button(&quot;Toushi&quot;);
+        ImGui::End();
+    &#125;
+
+
+    // Rendering
+    ImGui::Render();
+    const float clear_color_with_alpha[4] = &#123; clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w &#125;;
+    g_pd3dDeviceContext-&gt;OMSetRenderTargets(1, &amp;g_mainRenderTargetView, nullptr);
+    g_pd3dDeviceContext-&gt;ClearRenderTargetView(g_mainRenderTargetView, clear_color_with_alpha);
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+    // Present
+    HRESULT hr = g_pSwapChain-&gt;Present(1, 0);   // Present with vsync
+    //HRESULT hr = g_pSwapChain-&gt;Present(0, 0); // Present without vsync
+    g_SwapChainOccluded = (hr == DXGI_STATUS_OCCLUDED);
+&#125;
+
+// Cleanup
+ImGui_ImplDX11_Shutdown();
+ImGui_ImplWin32_Shutdown();
+ImGui::DestroyContext();
+
+CleanupDeviceD3D();
+::DestroyWindow(hwnd);
+::UnregisterClassW(wc.lpszClassName, wc.hInstance);
+
+return 0;
+</code></pre>
+<p>}</p>
+<p>// Helper functions</p>
+<p>bool CreateDeviceD3D(HWND hWnd)<br>
+{<br>
+// Setup swap chain<br>
+DXGI_SWAP_CHAIN_DESC sd;<br>
+ZeroMemory(&amp;sd, sizeof(sd));<br>
+sd.BufferCount = 2;<br>
+sd.BufferDesc.Width = 0;<br>
+sd.BufferDesc.Height = 0;<br>
+sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;<br>
+sd.BufferDesc.RefreshRate.Numerator = 60;<br>
+sd.BufferDesc.RefreshRate.Denominator = 1;<br>
+sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;<br>
+sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;<br>
+sd.OutputWindow = hWnd;<br>
+sd.SampleDesc.Count = 1;<br>
+sd.SampleDesc.Quality = 0;<br>
+sd.Windowed = TRUE;<br>
+sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;</p>
+<pre><code>UINT createDeviceFlags = 0;
+//createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+D3D_FEATURE_LEVEL featureLevel;
+const D3D_FEATURE_LEVEL featureLevelArray[2] = &#123; D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, &#125;;
+HRESULT res = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &amp;sd, &amp;g_pSwapChain, &amp;g_pd3dDevice, &amp;featureLevel, &amp;g_pd3dDeviceContext);
+if (res == DXGI_ERROR_UNSUPPORTED) // Try high-performance WARP software driver if hardware is not available.
+    res = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_WARP, nullptr, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &amp;sd, &amp;g_pSwapChain, &amp;g_pd3dDevice, &amp;featureLevel, &amp;g_pd3dDeviceContext);
+if (res != S_OK)
+    return false;
+
+CreateRenderTarget();
+return true;
+</code></pre>
+<p>}</p>
+<p>void CleanupDeviceD3D()<br>
+{<br>
+CleanupRenderTarget();<br>
+if (g_pSwapChain) { g_pSwapChain-&gt;Release(); g_pSwapChain = nullptr; }<br>
+if (g_pd3dDeviceContext) { g_pd3dDeviceContext-&gt;Release(); g_pd3dDeviceContext = nullptr; }<br>
+if (g_pd3dDevice) { g_pd3dDevice-&gt;Release(); g_pd3dDevice = nullptr; }<br>
+}</p>
+<p>void CreateRenderTarget()<br>
+{<br>
+ID3D11Texture2D* pBackBuffer;<br>
+g_pSwapChain-&gt;GetBuffer(0, IID_PPV_ARGS(&amp;pBackBuffer));<br>
+g_pd3dDevice-&gt;CreateRenderTargetView(pBackBuffer, nullptr, &amp;g_mainRenderTargetView);<br>
+pBackBuffer-&gt;Release();<br>
+}</p>
+<p>void CleanupRenderTarget()<br>
+{<br>
+if (g_mainRenderTargetView) { g_mainRenderTargetView-&gt;Release(); g_mainRenderTargetView = nullptr; }<br>
+}</p>
+<p>// Forward declare message handler from imgui_impl_win32.cpp<br>
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);</p>
+<p>// Win32 message handler<br>
+// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.<br>
+// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.<br>
+// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.<br>
+// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.<br>
+LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)<br>
+{<br>
+if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))<br>
+return true;</p>
+<pre><code>switch (msg)
+&#123;
+case WM_SIZE:
+    if (wParam == SIZE_MINIMIZED)
+        return 0;
+    g_ResizeWidth = (UINT)LOWORD(lParam); // Queue resize
+    g_ResizeHeight = (UINT)HIWORD(lParam);
+    return 0;
+case WM_SYSCOMMAND:
+    if ((wParam &amp; 0xfff0) == SC_KEYMENU) // Disable ALT application menu
+        return 0;
+    break;
+case WM_DESTROY:
+    ::PostQuitMessage(0);
+    return 0;
+&#125;
+return ::DefWindowProcW(hWnd, msg, wParam, lParam);
+</code></pre>
+<p>}</p>
+<p>这些东西就是源码了，和网上那些转载狗不一样。也别乱转载了。fps 游戏就可以这样，里面包含着 3 维转 2d 的工具代码，就这需要无脑复制找矩阵基质直接换一下里面的数值就好，里面有官方注释，英文的话很好理解。成果图大家应该都知道。</p>
+<p>网游的话有些会加密，针对于网游。大家可以自行试试，毕竟对于我来说制作 fps 比反汇编是简单的。我不是这方面的专家，c++ 也没学到那种每个封装函数和 api 都会的程度。如有疑问：QQ3059668258</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://act.beibei/2024/09/18/kali-linux-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -464,7 +829,7 @@ std::get&lt;3&gt;(proof) = &quot;Beautiful!&quot;;  // 修改元组的第四个�
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-09-18 19:35:38" itemprop="dateModified" datetime="2024-09-18T19:35:38+08:00">2024-09-18</time>
+                <time title="修改时间：2024-09-23 17:28:21" itemprop="dateModified" datetime="2024-09-23T17:28:21+08:00">2024-09-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -472,7 +837,7 @@ std::get&lt;3&gt;(proof) = &quot;Beautiful!&quot;;  // 修改元组的第四个�
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8F%8D%E7%BC%96%E8%AF%91/" itemprop="url" rel="index"><span itemprop="name">反编译</span></a>
+                  <a href="/categories/%E5%8F%8D%E6%B1%87%E7%BC%96/" itemprop="url" rel="index"><span itemprop="name">反汇编</span></a>
                 </span>
             </span>
 
@@ -1117,90 +1482,6 @@ return DefWindowProc(hWnd, message, wParam, lParam);<br>
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://act.beibei/2024/05/10/vs%E5%A4%A7%E9%87%8F%E6%8A%A5%E9%94%99/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240918155117.jpg">
-      <meta itemprop="name" content="Act">
-      <meta itemprop="description" content="ue使你开心，虚幻创造快乐">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Act@博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/05/10/vs%E5%A4%A7%E9%87%8F%E6%8A%A5%E9%94%99/" class="post-title-link" itemprop="url">VS大量报错</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-05-10 15:46:10" itemprop="dateCreated datePublished" datetime="2024-05-10T15:46:10+08:00">2024-05-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-09-18 19:36:39" itemprop="dateModified" datetime="2024-09-18T19:36:39+08:00">2024-09-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>兄弟们，我简直无语了。最近一觉醒来，发现我的 visual stdio2022 出现大量报错，原本写好的程序全部报错，打不开各个头文件，这个 bug 简直要了我的老命。去网上搜了搜教程各种五花八门的操作都有，什么包含头文件之类的，教你用重定向设置版本的。我都试过了没用，不过到重定向设置版本再去运行的时候，有了一个报错，这是一个好消息，至少终于知道问题在哪里了，之后在我的一番折腾，把 vs 删了又卸载了 20 多次终于弄好了。<br>
-接下来我给大家说一下问题吧，问题出在你最近格式化磁盘，还有清理电脑垃圾的时候清理了依赖项包。突然报错的原因是因为系统本身的内置缓存区会使用你在没删除之前的配置，当年删除后，顶多运行几个程序就出现大量报错。而且你再无论怎么安装卸载都不管用，你登陆了 VS 账号，他会保存你所有设置，包括你删除修改的设置，即使你使用安装里面的修复也没用，当你安装了重定向的版本 sdk 再去属性里配置也没用，他还是会告诉你找不到。废话不多说，直接上解决办法。<br>
-解决 1：找到如下图片的位置，一般默认在你安装的公布各项插件的磁盘里，把配置改成我的这个配置</p>
-<p><img src="/photo/$%7Bfiilename%7D/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-05-10%20153315.png" alt="屏幕截图 2024-05-10 153315"></p>
-<p>然后保存重启 vs.</p>
-<p>2：彻底卸载 vs 然后开发工具选所有和 c<ins> 有关的，如果你不是就选择和其他语言有关的，因为我是 c</ins>。（多说一句，当你的文件配置误删的话，就做好之前项目没有的准备，一切都要从 0 开始），然后选择你电脑 wind 的版本对应的 sdk，例如 win11 就下载 win11sdk。然后在项目属性里重新定向版本，如果还是找不到，就用上面的办法</p>
-<p>3：彻底没办法怎么弄都弄不好，没有关系，重新去注册一个 VS 账号，把 VS 清理残余彻底一点，拿来直接就好。</p>
-<p>4：要是你不想注册也不想删除，电脑空间也不是很大，也没太多内容，直接去备份重装系统就好（这是最最最坏的办法），不到万不得已不要用这个方法，万一没好，得不偿失。</p>
-<p>希望能帮到大家！！</p>
-<p><em><strong>cout 和 cin 无法定义</strong></em></p>
-<p>再顺便把这个也给你们说了吧，省的我再发博客。这个其实最简单，不是系统问题，是你之前定义的类没有括号和有部分不小心删了，反回值不对，多去检查一下代码！！！</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1272,7 +1553,7 @@ return DefWindowProc(hWnd, message, wParam, lParam);<br>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
